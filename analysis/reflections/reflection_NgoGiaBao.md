@@ -1,6 +1,6 @@
 # Individual Reflection — Lab 18
 
-**Tên:** [Họ tên của bạn]  
+**Tên:** Ngô Gia Bảo-2A202600385  
 **Module phụ trách:** M3: Reranking
 
 ---
