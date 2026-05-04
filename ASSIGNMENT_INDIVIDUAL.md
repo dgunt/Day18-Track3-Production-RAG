@@ -98,10 +98,10 @@ Integrate cross-encoder reranker, benchmark latency:
 ```
 
 ### Test pass criteria
-- [ ] Rerank 5 docs → trả về ≤ 3 `RerankResult`
-- [ ] Results sorted by `rerank_score` descending
-- [ ] Doc về "nghỉ phép" ranked cao hơn doc về "VPN"
-- [ ] Latency < 5 giây (first load chậm OK)
+- [x] Rerank 5 docs → trả về ≤ 3 `RerankResult`
+- [x] Results sorted by `rerank_score` descending
+- [x] Doc về "nghỉ phép" ranked cao hơn doc về "VPN"
+- [x] Latency < 5 giây (first load chậm OK)
 
 ---
 

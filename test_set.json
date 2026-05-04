@@ -1,3 +1,42 @@
 [
-  {"question": "hihi cả nhà tự tạo testset bằng cơm nhé", "ground_truth": "Không kịp tạo luôn"},
+  {
+    "question": "What is the history of the printing press?",
+    "ground_truth": "The printing press was invented by Johannes Gutenberg around 1440 in Mainz, Germany. It revolutionized the way information was disseminated and played a key role in the Renaissance, Reformation, and the spread of literacy."
+  },
+  {
+    "question": "How does a transformer model work?",
+    "ground_truth": "Transformer models use a self-attention mechanism to weigh the importance of different words in the input sequence. This allows them to capture long-range dependencies and parallelize computations, making them highly effective for natural language understanding tasks."
+  },
+  {
+    "question": "What are the main components of a RAG system?",
+    "ground_truth": "A RAG system consists of three main components: a retriever that fetches relevant documents, a generator that produces the answer, and a scoring mechanism that ranks the retrieved documents. These components work together to provide context-aware responses."
+  },
+  {
+    "question": "How do embedding models capture semantic meaning?",
+    "ground_truth": "Embedding models map words or phrases to dense vectors in a high-dimensional space. Words with similar meanings are located closer together in this space, allowing the model to understand semantic relationships."
+  },
+  {
+    "question": "What is the purpose of vector search?",
+    "ground_truth": "Vector search enables efficient retrieval of relevant documents by comparing their vector representations. It is particularly useful for semantic search applications where traditional keyword matching is insufficient."
+  },
+  {
+    "question": "How do you evaluate the performance of a RAG system?",
+    "ground_truth": "RAG system performance is evaluated using metrics such as faithfulness, answer relevancy, context precision, and context recall. These metrics measure the accuracy and relevance of the generated answers and the quality of the retrieved context."
+  },
+  {
+    "question": "What are the advantages of hybrid search?",
+    "ground_truth": "Hybrid search combines dense (semantic) search with sparse (keyword) search to leverage the strengths of both approaches. This results in improved retrieval accuracy and robustness across different types of queries."
+  },
+  {
+    "question": "How do rerankers improve RAG performance?",
+    "ground_truth": "Rerankers use more powerful models to re-rank the initial set of retrieved documents, improving the quality of the final context. They help to eliminate irrelevant results and ensure that the most relevant information is used for answer generation."
+  },
+  {
+    "question": "What is chunking in the context of RAG?",
+    "ground_truth": "Chunking is the process of dividing documents into smaller segments (chunks) for efficient storage and retrieval. The way documents are chunked significantly affects the performance of the RAG system."
+  },
+  {
+    "question": "How do rerankers improve RAG performance?",
+    "ground_truth": "Rerankers use more powerful models to re-rank the initial set of retrieved documents, improving the quality of the final context. They help to eliminate irrelevant results and ensure that the most relevant information is used for answer generation."
+  }
 ]

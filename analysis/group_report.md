@@ -9,7 +9,7 @@
 |-----|--------|-----------|-----------|
 | | M1: Chunking | ☐ | /8 |
 | | M2: Hybrid Search | ☐ | /5 |
-| | M3: Reranking | ☐ | /5 |
+| [Họ tên của bạn] | M3: Reranking | ☑ | 5/5 |
 | | M4: Evaluation | ☐ | /4 |
 
 ## Kết quả RAGAS

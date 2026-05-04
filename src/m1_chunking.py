@@ -87,12 +87,7 @@ def _get_sentence_model():
     from sentence_transformers import SentenceTransformer  # type: ignore
 
     model_name = "all-MiniLM-L6-v2"
-    try:
-        # Thử load từ cache local trước (không cần network)
-        _SENTENCE_MODEL = SentenceTransformer(model_name, local_files_only=True)
-    except Exception:
-        # Nếu chưa cache → download (lần đầu tiên)
-        _SENTENCE_MODEL = SentenceTransformer(model_name, local_files_only=False)
+    _SENTENCE_MODEL = SentenceTransformer(model_name)
 
     return _SENTENCE_MODEL
 
