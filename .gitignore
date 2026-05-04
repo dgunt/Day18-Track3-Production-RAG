@@ -5,3 +5,6 @@ __pycache__/
 .pytest_cache/
 *.egg-info/
 
+# Môi trường ảo Python
+venv/
+.venv/
