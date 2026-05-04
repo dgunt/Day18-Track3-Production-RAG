@@ -1,0 +1,47 @@
+# ============================================================
+# Lab 18: Production RAG Pipeline — Dependencies
+# ============================================================
+
+# --- Core / Config ---
+python-dotenv>=1.0.0
+
+# --- Module 1: Chunking (M1) ---
+# sentence-transformers: dùng cho chunk_semantic() — encode sentences, tính cosine similarity
+sentence-transformers>=2.6.0
+numpy>=1.26.0
+
+# --- Module 2: Hybrid Search (M2) ---
+# underthesea: Vietnamese word segmentation
+underthesea>=6.8.0
+# rank-bm25: BM25Okapi indexing
+rank-bm25>=0.2.2
+# qdrant-client: vector database client
+qdrant-client>=1.9.0
+
+# --- Module 3: Reranking (M3) ---
+# FlagEmbedding: BAAI/bge-reranker-v2-m3 (Option A)
+FlagEmbedding>=1.2.9
+# flashrank: lightweight reranker (Option B — optional)
+flashrank>=0.2.9
+
+# --- Module 4: Evaluation (M4) ---
+# ragas: RAGAS evaluation framework
+ragas>=0.1.14
+# datasets: HuggingFace Dataset.from_dict
+datasets>=2.19.0
+# pandas: result.to_pandas()
+pandas>=2.2.0
+
+# --- Module 5: Enrichment (M5) ---
+# openai: GPT-4o-mini for summarize, HyQA, contextual prepend, metadata
+openai>=1.30.0
+
+# --- Pipeline / LLM Generation ---
+# openai already listed above (used in pipeline.py run_query LLM generation)
+
+# --- Testing ---
+pytest>=8.2.0
+pytest-asyncio>=0.23.0
+
+# --- Utilities ---
+tqdm>=4.66.0
