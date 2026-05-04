@@ -1,3 +1,82 @@
 [
-  {"question": "hihi cả nhà tự tạo testset bằng cơm nhé", "ground_truth": "Không kịp tạo luôn"},
+  {
+    "question": "Nghị định 13/2023/NĐ-CP quy định về nội dung gì?",
+    "ground_truth": "Nghị định 13/2023/NĐ-CP quy định về bảo vệ dữ liệu cá nhân và trách nhiệm bảo vệ dữ liệu cá nhân của cơ quan, tổ chức, cá nhân có liên quan."
+  },
+  {
+    "question": "Nghị định 13/2023/NĐ-CP áp dụng cho những nhóm đối tượng nào?",
+    "ground_truth": "Nghị định áp dụng cho cơ quan, tổ chức, cá nhân Việt Nam; cơ quan, tổ chức, cá nhân nước ngoài tại Việt Nam; cơ quan, tổ chức, cá nhân Việt Nam hoạt động tại nước ngoài; và cơ quan, tổ chức, cá nhân nước ngoài trực tiếp tham gia hoặc có liên quan đến xử lý dữ liệu cá nhân tại Việt Nam."
+  },
+  {
+    "question": "Theo Nghị định 13/2023/NĐ-CP, dữ liệu cá nhân là gì?",
+    "ground_truth": "Dữ liệu cá nhân là thông tin dưới dạng ký hiệu, chữ viết, chữ số, hình ảnh, âm thanh hoặc dạng tương tự trên môi trường điện tử gắn liền với một con người cụ thể hoặc giúp xác định một con người cụ thể."
+  },
+  {
+    "question": "Dữ liệu cá nhân bao gồm những loại nào?",
+    "ground_truth": "Dữ liệu cá nhân bao gồm dữ liệu cá nhân cơ bản và dữ liệu cá nhân nhạy cảm."
+  },
+  {
+    "question": "Dữ liệu cá nhân nhạy cảm được định nghĩa như thế nào?",
+    "ground_truth": "Dữ liệu cá nhân nhạy cảm là dữ liệu cá nhân gắn liền với quyền riêng tư của cá nhân mà khi bị xâm phạm sẽ gây ảnh hưởng trực tiếp tới quyền và lợi ích hợp pháp của cá nhân."
+  },
+  {
+    "question": "Bảo vệ dữ liệu cá nhân là hoạt động gì?",
+    "ground_truth": "Bảo vệ dữ liệu cá nhân là hoạt động phòng ngừa, phát hiện, ngăn chặn và xử lý hành vi vi phạm liên quan đến dữ liệu cá nhân theo quy định của pháp luật."
+  },
+  {
+    "question": "Chủ thể dữ liệu là ai?",
+    "ground_truth": "Chủ thể dữ liệu là cá nhân được dữ liệu cá nhân phản ánh."
+  },
+  {
+    "question": "Xử lý dữ liệu cá nhân bao gồm những hoạt động nào?",
+    "ground_truth": "Xử lý dữ liệu cá nhân gồm một hoặc nhiều hoạt động tác động tới dữ liệu cá nhân như thu thập, ghi, phân tích, xác nhận, lưu trữ, chỉnh sửa, công khai, truy cập, truy xuất, thu hồi, mã hóa, giải mã, sao chép, chia sẻ, truyền đưa, cung cấp, chuyển giao, xóa hoặc hủy dữ liệu cá nhân."
+  },
+  {
+    "question": "Sự đồng ý của chủ thể dữ liệu được hiểu như thế nào?",
+    "ground_truth": "Sự đồng ý của chủ thể dữ liệu là việc thể hiện rõ ràng, tự nguyện và khẳng định việc cho phép xử lý dữ liệu cá nhân của chủ thể dữ liệu."
+  },
+  {
+    "question": "Bên Kiểm soát dữ liệu cá nhân là gì?",
+    "ground_truth": "Bên Kiểm soát dữ liệu cá nhân là tổ chức hoặc cá nhân quyết định mục đích và phương tiện xử lý dữ liệu cá nhân."
+  },
+  {
+    "question": "Bên Xử lý dữ liệu cá nhân là gì?",
+    "ground_truth": "Bên Xử lý dữ liệu cá nhân là tổ chức hoặc cá nhân thực hiện việc xử lý dữ liệu thay mặt cho Bên Kiểm soát dữ liệu thông qua hợp đồng hoặc thỏa thuận với Bên Kiểm soát dữ liệu."
+  },
+  {
+    "question": "Các hành vi nào bị nghiêm cấm trong bảo vệ dữ liệu cá nhân?",
+    "ground_truth": "Các hành vi bị nghiêm cấm gồm xử lý dữ liệu cá nhân trái pháp luật, xử lý dữ liệu để chống lại Nhà nước, xử lý dữ liệu gây ảnh hưởng tới an ninh quốc gia hoặc quyền lợi hợp pháp của tổ chức cá nhân khác, cản trở hoạt động bảo vệ dữ liệu cá nhân của cơ quan có thẩm quyền, và lợi dụng hoạt động bảo vệ dữ liệu cá nhân để vi phạm pháp luật."
+  },
+  {
+    "question": "Chủ thể dữ liệu có những quyền nào theo Điều 9 Nghị định 13/2023/NĐ-CP?",
+    "ground_truth": "Chủ thể dữ liệu có các quyền như quyền được biết, quyền đồng ý, quyền truy cập, quyền rút lại sự đồng ý, quyền xóa dữ liệu, quyền hạn chế xử lý dữ liệu, quyền cung cấp dữ liệu, quyền phản đối xử lý dữ liệu và quyền yêu cầu bồi thường thiệt hại khi có vi phạm."
+  },
+  {
+    "question": "Tờ khai thuế giá trị gia tăng trong tài liệu áp dụng cho kỳ tính thuế nào?",
+    "ground_truth": "Tờ khai thuế giá trị gia tăng áp dụng cho kỳ tính thuế Quý 4 năm 2024."
+  },
+  {
+    "question": "Người nộp thuế trong tờ khai GTGT là đơn vị nào?",
+    "ground_truth": "Người nộp thuế trong tờ khai là CÔNG TY CỔ PHẦN DHA SURFACES."
+  },
+  {
+    "question": "Mã số thuế của CÔNG TY CỔ PHẦN DHA SURFACES là gì?",
+    "ground_truth": "Mã số thuế của CÔNG TY CỔ PHẦN DHA SURFACES là 0106769437."
+  },
+  {
+    "question": "Thuế giá trị gia tăng còn được khấu trừ kỳ trước chuyển sang là bao nhiêu?",
+    "ground_truth": "Thuế giá trị gia tăng còn được khấu trừ kỳ trước chuyển sang là 77.377.803 đồng."
+  },
+  {
+    "question": "Tổng doanh thu hàng hóa, dịch vụ bán ra trong tờ khai là bao nhiêu?",
+    "ground_truth": "Tổng doanh thu hàng hóa, dịch vụ bán ra là 3.703.685.610 đồng, với thuế giá trị gia tăng là 344.675.400 đồng."
+  },
+  {
+    "question": "Giá trị hàng hóa, dịch vụ mua vào trong kỳ là bao nhiêu?",
+    "ground_truth": "Giá trị hàng hóa, dịch vụ mua vào trong kỳ là 2.405.743.241 đồng, với thuế giá trị gia tăng là 215.163.767 đồng."
+  },
+  {
+    "question": "Thuế giá trị gia tăng còn phải nộp trong kỳ là bao nhiêu?",
+    "ground_truth": "Thuế giá trị gia tăng còn phải nộp trong kỳ là 52.133.830 đồng."
+  }
 ]

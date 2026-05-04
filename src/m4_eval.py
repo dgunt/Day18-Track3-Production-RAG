@@ -28,40 +28,119 @@ def load_test_set(path: str = TEST_SET_PATH) -> list[dict]:
 def evaluate_ragas(questions: list[str], answers: list[str],
                    contexts: list[list[str]], ground_truths: list[str]) -> dict:
     """Run RAGAS evaluation."""
-    # TODO: Implement RAGAS evaluation
-    # 1. from ragas import evaluate
-    #    from ragas.metrics import faithfulness, answer_relevancy, context_precision, context_recall
-    #    from datasets import Dataset
-    # 2. dataset = Dataset.from_dict({
-    #        "question": questions, "answer": answers,
-    #        "contexts": contexts, "ground_truth": ground_truths,
-    #    })
-    # 3. result = evaluate(dataset, metrics=[faithfulness, answer_relevancy,
-    #                                        context_precision, context_recall])
-    # 4. df = result.to_pandas()
-    # 5. per_question = [EvalResult(question=row.question, ...) for _, row in df.iterrows()]
-    # 6. Return {"faithfulness": float, "answer_relevancy": float,
-    #            "context_precision": float, "context_recall": float,
-    #            "per_question": per_question}
-    return {"faithfulness": 0.0, "answer_relevancy": 0.0,
-            "context_precision": 0.0, "context_recall": 0.0, "per_question": []}
+    metric_names = ["faithfulness", "answer_relevancy", "context_precision", "context_recall"]
+
+    def empty_result() -> dict:
+        return {
+            **{name: 0.0 for name in metric_names},
+            "per_question": [
+                EvalResult(q, a, c, gt, 0.0, 0.0, 0.0, 0.0)
+                for q, a, c, gt in zip(questions, answers, contexts, ground_truths)
+            ],
+        }
+
+    try:
+        from datasets import Dataset
+        from ragas import evaluate
+        from ragas.metrics import (
+            answer_relevancy,
+            context_precision,
+            context_recall,
+            faithfulness,
+        )
+        from ragas.embeddings.base import LangchainEmbeddingsWrapper
+        from ragas.llms.base import LangchainLLMWrapper
+        from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+    except ImportError:
+        return empty_result()
+
+    dataset = Dataset.from_dict({
+        "question": questions,
+        "answer": answers,
+        "contexts": contexts,
+        "ground_truth": ground_truths,
+    })
+    llm = LangchainLLMWrapper(
+        ChatOpenAI(model="gpt-4o-mini", temperature=0),
+        bypass_n=True,
+    )
+    embeddings = LangchainEmbeddingsWrapper(
+        OpenAIEmbeddings(model="text-embedding-3-small")
+    )
+    try:
+        result = evaluate(
+            dataset,
+            metrics=[faithfulness, answer_relevancy, context_precision, context_recall],
+            llm=llm,
+            embeddings=embeddings,
+        )
+    except Exception:
+        return empty_result()
+
+    df = result.to_pandas()
+
+    def as_float(value) -> float:
+        try:
+            value = float(value)
+            return value if value == value else 0.0
+        except (TypeError, ValueError):
+            return 0.0
+
+    def aggregate_score(name: str) -> float:
+        try:
+            return as_float(result[name])
+        except (KeyError, TypeError):
+            return as_float(df[name].mean()) if name in df else 0.0
+
+    per_question = [
+        EvalResult(
+            question=questions[i],
+            answer=answers[i],
+            contexts=contexts[i],
+            ground_truth=ground_truths[i],
+            faithfulness=as_float(getattr(row, "faithfulness", 0.0)),
+            answer_relevancy=as_float(getattr(row, "answer_relevancy", 0.0)),
+            context_precision=as_float(getattr(row, "context_precision", 0.0)),
+            context_recall=as_float(getattr(row, "context_recall", 0.0)),
+        )
+        for i, row in enumerate(df.itertuples(index=False))
+    ]
+
+    return {
+        **{name: aggregate_score(name) for name in metric_names},
+        "per_question": per_question,
+    }
 
 
 def failure_analysis(eval_results: list[EvalResult], bottom_n: int = 10) -> list[dict]:
     """Analyze bottom-N worst questions using Diagnostic Tree."""
-    # TODO: Implement failure analysis
-    # 1. For each result, avg_score = mean(faithfulness, answer_relevancy, context_precision, context_recall)
-    # 2. Sort by avg_score ascending → take bottom_n
-    # 3. For each failed question:
-    #    worst_metric = metric with lowest score
-    #    Map to diagnosis:
-    #      faithfulness < 0.85     → diagnosis="LLM hallucinating", fix="Tighten prompt, lower temperature"
-    #      context_recall < 0.75   → diagnosis="Missing relevant chunks", fix="Improve chunking or add BM25"
-    #      context_precision < 0.75 → diagnosis="Too many irrelevant chunks", fix="Add reranking or metadata filter"
-    #      answer_relevancy < 0.80 → diagnosis="Answer doesn't match question", fix="Improve prompt template"
-    # 4. Return [{"question": str, "worst_metric": str, "score": float,
-    #             "diagnosis": str, "suggested_fix": str}]
-    return []
+    from heapq import nsmallest
+
+    if bottom_n <= 0:
+        return []
+    metrics = ("faithfulness", "answer_relevancy", "context_precision", "context_recall")
+    diagnosis_map = {
+        "faithfulness": ("LLM hallucinating", "Tighten prompt, lower temperature"),
+        "context_recall": ("Missing relevant chunks", "Improve chunking or add BM25"),
+        "context_precision": ("Too many irrelevant chunks", "Add reranking or metadata filter"),
+        "answer_relevancy": ("Answer doesn't match question", "Improve prompt template"),
+    }
+
+    def avg_score(result: EvalResult) -> float:
+        return sum(float(getattr(result, metric, 0.0)) for metric in metrics) / len(metrics)
+
+    failures = []
+    for result in nsmallest(bottom_n, eval_results, key=avg_score):
+        worst_metric = min(metrics, key=lambda metric: float(getattr(result, metric, 0.0)))
+        diagnosis, fix = diagnosis_map[worst_metric]
+        failures.append({
+            "question": result.question,
+            "worst_metric": worst_metric,
+            "score": float(getattr(result, worst_metric, 0.0)),
+            "diagnosis": diagnosis,
+            "suggested_fix": fix,
+        })
+    return failures
 
 
 def save_report(results: dict, failures: list[dict], path: str = "ragas_report.json"):
