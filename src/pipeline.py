@@ -9,7 +9,25 @@ from src.m2_search import HybridSearch
 from src.m3_rerank import CrossEncoderReranker
 from src.m4_eval import load_test_set, evaluate_ragas, failure_analysis, save_report
 from src.m5_enrichment import enrich_chunks
-from config import RERANK_TOP_K
+from config import OPENAI_API_KEY, RERANK_TOP_K
+
+
+_OPENAI_CLIENT = None
+
+
+def _get_openai_client():
+    """Create the OpenAI client lazily so import/build stays fast."""
+    global _OPENAI_CLIENT
+    if not OPENAI_API_KEY:
+        return None
+    if _OPENAI_CLIENT is None:
+        try:
+            from openai import OpenAI
+
+            _OPENAI_CLIENT = OpenAI(api_key=OPENAI_API_KEY, timeout=15)
+        except Exception:
+            return None
+    return _OPENAI_CLIENT
 
 
 def build_pipeline():
@@ -57,16 +75,33 @@ def run_query(query: str, search: HybridSearch, reranker: CrossEncoderReranker) 
     reranked = reranker.rerank(query, docs, top_k=RERANK_TOP_K)
     contexts = [r.text for r in reranked] if reranked else [r.text for r in results[:3]]
 
-    # TODO (nhóm): Replace with LLM generation for better scores
-    # from openai import OpenAI
-    # client = OpenAI()
-    # context_str = "\n\n".join(contexts)
-    # resp = client.chat.completions.create(model="gpt-4o-mini", messages=[
-    #     {"role": "system", "content": "Trả lời CHỈ dựa trên context. Nếu không có → nói 'Không tìm thấy.'"},
-    #     {"role": "user", "content": f"Context:\n{context_str}\n\nCâu hỏi: {query}"},
-    # ])
-    # answer = resp.choices[0].message.content
-    answer = contexts[0] if contexts else "Không tìm thấy thông tin."
+    client = _get_openai_client()
+    if client and contexts:
+        context_str = "\n\n".join(contexts)[:8000]
+        try:
+            resp = client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {
+                        "role": "system",
+                        "content": (
+                            "Tra loi ngan gon, dung trong tam va CHI dua tren context. "
+                            "Neu context khong du thong tin, tra loi: Khong tim thay thong tin."
+                        ),
+                    },
+                    {"role": "user", "content": f"Context:\n{context_str}\n\nCau hoi: {query}"},
+                ],
+                max_tokens=220,
+                temperature=0,
+            )
+            answer = (resp.choices[0].message.content or "").strip()
+        except Exception:
+            answer = ""
+    else:
+        answer = ""
+
+    if not answer:
+        answer = contexts[0] if contexts else "Khong tim thay thong tin."
     return answer, contexts
 
 

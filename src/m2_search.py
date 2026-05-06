@@ -47,19 +47,30 @@ class BM25Search:
 
     def search(self, query: str, top_k: int = BM25_TOP_K) -> list[SearchResult]:
         """Search using BM25."""
-        # TODO 3: Implement BM25 search
-        if not self.bm25:
+        if self.bm25 is None or not self.documents:
             return []
 
         tokenized_query = segment_vietnamese(query).split()
         scores = self.bm25.get_scores(tokenized_query)
-        
-        # Sort by score in descending order and get top_k indices
-        top_indices = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)[:top_k]
-        
-        return [SearchResult(text=self.documents[i]["text"], score=scores[i], metadata=self.documents[i]["metadata"], method="bm25")
-                for i in top_indices if scores[i] > 0] # Only return results with score > 0
 
+        top_indices = sorted(
+            range(len(scores)),
+            key=lambda i: scores[i],
+            reverse=True
+        )[:top_k]
+
+        results = []
+        for i in top_indices:
+            results.append(
+                SearchResult(
+                    text=self.documents[i]["text"],
+                    score=float(scores[i]),
+                    metadata=self.documents[i].get("metadata", {}),
+                    method="bm25"
+                )
+            )
+
+        return results
 
 class DenseSearch:
     def __init__(self):
